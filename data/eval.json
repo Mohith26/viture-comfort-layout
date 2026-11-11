@@ -1,0 +1,97 @@
+{
+ "generated": "11/10/2026",
+ "config": {
+  "users": 400,
+  "seedStart": 9000,
+  "trainDays": 5,
+  "testDays": 2,
+  "presets": [
+   "Remote work",
+   "Gaming night",
+   "Study session"
+  ]
+ },
+ "heldOutHours": 1942.7544355801456,
+ "summary": {
+  "current": {
+   "travelMedian": 806.4133957790918,
+   "travelMean": 885.9981694956531,
+   "upShare": 0.17379169605806166,
+   "farShare": 0.22360353699792712,
+   "loadMean": 108.97676438078064
+  },
+  "tidy": {
+   "travelMedian": 1147.4954077399238,
+   "travelMean": 1269.8102896958906,
+   "upShare": 0,
+   "farShare": 0.6548448291392471,
+   "loadMean": 138.68900171841102
+  },
+  "sorted": {
+   "travelMedian": 986.6555203255766,
+   "travelMean": 1089.295396732975,
+   "upShare": 0,
+   "farShare": 0.23362660973908045,
+   "loadMean": 44.24177074352968
+  },
+  "comfort": {
+   "travelMedian": 588.6831828653611,
+   "travelMean": 630.5341762192137,
+   "upShare": 0.0012954773338892784,
+   "farShare": 0.0244916499276693,
+   "loadMean": 11.180011291766268
+  },
+  "oracle": {
+   "travelMedian": 579.1039497380559,
+   "travelMean": 625.3278010960531,
+   "upShare": 0.0006452931980426826,
+   "farShare": 0.02329160895617775,
+   "loadMean": 10.669277886810738
+  }
+ },
+ "medianTravelReduction": {
+  "vsCurrent": 0.2765001256868424,
+  "vsTidy": 0.47983967273540823,
+  "vsSorted": 0.39972084124532387
+ },
+ "betterThanCurrent": 0.9775,
+ "betterThanSorted": 1,
+ "oracleGap": 0.0033020008883598573,
+ "histogram": [
+  {
+   "lo": 0,
+   "hi": 0.2,
+   "users": 117,
+   "below": 0
+  },
+  {
+   "lo": 0.2,
+   "hi": 0.4,
+   "users": 209,
+   "below": 0
+  },
+  {
+   "lo": 0.4,
+   "hi": 0.6,
+   "users": 59,
+   "below": 0
+  },
+  {
+   "lo": 0.6,
+   "hi": 0.8,
+   "users": 6,
+   "below": 0
+  },
+  {
+   "lo": 0.8,
+   "hi": 1.0001,
+   "users": 0,
+   "below": 0
+  },
+  {
+   "lo": -1,
+   "hi": 0,
+   "users": 9
+  }
+ ]
+}
