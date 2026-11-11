@@ -1,4 +1,6 @@
-// Small seeded PRNG utilities (mulberry32 + Box-Muller). Deterministic across Node and browsers.
+// Small seeded PRNG utilities. Everything here uses only +, -, *, / and sqrt (all exactly rounded
+// in IEEE 754), so results are bit-identical across JS engines. Math.log/exp/cos can differ in the
+// last bit between V8 versions, which is enough to send a simulated-annealing run down another path.
 
 export function mulberry32(seed) {
   let a = seed >>> 0;
@@ -22,22 +24,56 @@ export function substream(seed, label) {
   return mulberry32(h);
 }
 
+const LN2 = 0.6931471805599453;
+
+export function detLog(x) {
+  if (!(x > 0)) return -Infinity;
+  let k = 0;
+  let m = x;
+  while (m >= 1.5) { m /= 2; k++; }
+  while (m < 0.75) { m *= 2; k--; }
+  const s = (m - 1) / (m + 1);
+  const s2 = s * s;
+  let term = s;
+  let sum = 0;
+  for (let n = 1; n < 60; n += 2) { sum += term / n; term *= s2; }
+  return 2 * sum + k * LN2;
+}
+
+export function detExp(x) {
+  if (x < -700) return 0;
+  const k = Math.round(x / LN2);
+  const r = x - k * LN2;
+  let term = 1;
+  let sum = 1;
+  for (let n = 1; n < 30; n++) { term = (term * r) / n; sum += term; }
+  let out = sum;
+  if (k > 0) for (let i = 0; i < k; i++) out *= 2;
+  else for (let i = 0; i < -k; i++) out /= 2;
+  return out;
+}
+
+// Marsaglia polar method (no trig needed)
 export function normal(rng) {
-  let u = 0;
-  while (u === 0) u = rng();
-  const v = rng();
-  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  let u;
+  let v;
+  let s;
+  do {
+    u = 2 * rng() - 1;
+    v = 2 * rng() - 1;
+    s = u * u + v * v;
+  } while (s >= 1 || s === 0);
+  return u * Math.sqrt((-2 * detLog(s)) / s);
 }
 
 export function lognormalMean(rng, mean, cv) {
-  // lognormal with the given arithmetic mean and coefficient of variation
-  const s2 = Math.log(1 + cv * cv);
-  const mu = Math.log(mean) - s2 / 2;
-  return Math.exp(mu + Math.sqrt(s2) * normal(rng));
+  const s2 = detLog(1 + cv * cv);
+  const mu = detLog(mean) - s2 / 2;
+  return detExp(mu + Math.sqrt(s2) * normal(rng));
 }
 
 export function poisson(rng, lambda) {
-  const L = Math.exp(-lambda);
+  const L = detExp(-lambda);
   let k = 0;
   let p = 1;
   do {

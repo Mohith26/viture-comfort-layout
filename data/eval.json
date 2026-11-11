@@ -11,75 +11,75 @@
    "Study session"
   ]
  },
- "heldOutHours": 1942.7544355801456,
+ "heldOutHours": 1938.6781600695879,
  "summary": {
   "current": {
-   "travelMedian": 806.4133957790918,
-   "travelMean": 885.9981694956531,
-   "upShare": 0.17379169605806166,
-   "farShare": 0.22360353699792712,
-   "loadMean": 108.97676438078064
+   "travelMedian": 818.6111077787261,
+   "travelMean": 883.9971502818335,
+   "upShare": 0.18326912314048766,
+   "farShare": 0.2239933515187842,
+   "loadMean": 113.8907349929966
   },
   "tidy": {
-   "travelMedian": 1147.4954077399238,
-   "travelMean": 1269.8102896958906,
+   "travelMedian": 1190.6028680425875,
+   "travelMean": 1260.4025122365351,
    "upShare": 0,
-   "farShare": 0.6548448291392471,
-   "loadMean": 138.68900171841102
+   "farShare": 0.6629587797868021,
+   "loadMean": 140.1409413326534
   },
   "sorted": {
-   "travelMedian": 986.6555203255766,
-   "travelMean": 1089.295396732975,
+   "travelMedian": 989.503378477417,
+   "travelMean": 1079.2909065935748,
    "upShare": 0,
-   "farShare": 0.23362660973908045,
-   "loadMean": 44.24177074352968
+   "farShare": 0.2205453845010548,
+   "loadMean": 43.07146017295329
   },
   "comfort": {
-   "travelMedian": 588.6831828653611,
-   "travelMean": 630.5341762192137,
-   "upShare": 0.0012954773338892784,
-   "farShare": 0.0244916499276693,
-   "loadMean": 11.180011291766268
+   "travelMedian": 592.9374653797286,
+   "travelMean": 630.8185307526221,
+   "upShare": 0.0009425991291308194,
+   "farShare": 0.024697947364502867,
+   "loadMean": 10.601188109687461
   },
   "oracle": {
-   "travelMedian": 579.1039497380559,
-   "travelMean": 625.3278010960531,
-   "upShare": 0.0006452931980426826,
-   "farShare": 0.02329160895617775,
-   "loadMean": 10.669277886810738
+   "travelMedian": 588.8185772321965,
+   "travelMean": 624.2691730482685,
+   "upShare": 0.0005081785244023436,
+   "farShare": 0.020607537712293063,
+   "loadMean": 10.199258773729015
   }
  },
  "medianTravelReduction": {
-  "vsCurrent": 0.2765001256868424,
-  "vsTidy": 0.47983967273540823,
-  "vsSorted": 0.39972084124532387
+  "vsCurrent": 0.2845514947456857,
+  "vsTidy": 0.4877463691004797,
+  "vsSorted": 0.38910890236208845
  },
- "betterThanCurrent": 0.9775,
+ "betterThanCurrent": 0.98,
  "betterThanSorted": 1,
- "oracleGap": 0.0033020008883598573,
+ "oracleGap": 0.0013874756133475108,
  "histogram": [
   {
    "lo": 0,
    "hi": 0.2,
-   "users": 117,
+   "users": 115,
    "below": 0
   },
   {
    "lo": 0.2,
    "hi": 0.4,
-   "users": 209,
+   "users": 207,
    "below": 0
   },
   {
    "lo": 0.4,
    "hi": 0.6,
-   "users": 59,
+   "users": 65,
    "below": 0
   },
   {
    "lo": 0.6,
    "hi": 0.8,
-   "users": 6,
+   "users": 5,
    "below": 0
   },
   {
@@ -91,7 +91,7 @@
   {
    "lo": -1,
    "hi": 0,
-   "users": 9
+   "users": 8
   }
  ]
 }

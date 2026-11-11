@@ -47,7 +47,7 @@ function windows(v, layout, heads) {
   return layout.map((p, i) => {
     const a = v.apps[i];
     const h = heads[i];
-    const turn = Math.round(Math.hypot(h.yaw, h.pitch - MODEL.neutralPitch));
+    const turn = Math.round(Math.sqrt(h.yaw * h.yaw + (h.pitch - MODEL.neutralPitch) ** 2));
     const up = h.pitch > MODEL.comfortUp;
     const far = Math.abs(h.yaw) > MODEL.comfortYaw;
     const cls = up || far ? 'bad' : turn > 12 ? 'warn' : 'ok';

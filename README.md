@@ -19,21 +19,22 @@ Unofficial concept demo by Mohith Gajjela. Not affiliated with VITURE. All usage
 1. **Head model** (`src/ergonomics.js`). For a window centred at (yaw, pitch) with angular size (w, h), the head turns by the smallest amount that brings the whole window inside the field of view (44° × 28°, from Luma Ultra's 52° diagonal at 16:10). The eyes cover the rest. Sustained cost is quadratic in the head angle away from a relaxed, slightly-downward pose (-6°), with looking up weighted 2.5× and looking down 0.6×. Switching costs the head rotation between the two poses.
 2. **Usage** (`src/usage.js`). From a focus log (which window is in front, for how long, and what comes next) it learns the share of time per window and the switch rate between every pair. A 1% prior keeps rarely used windows from landing somewhere painful.
 3. **Search** (`src/optimize.js`). Simulated annealing over window centres with three moves (nudge, swap two windows, snap a window next to another), 16 restarts, no overlaps (with room for the title bar), then a deterministic coordinate-descent finish rounded to 0.5°. It minimises `sum(time share x posture cost) + 0.02 x sum(switch rate x head travel)`.
-4. **Scoring** is always on held-out days: each user has 7 days of logs; the layout is learned on days 1-5 and scored by replaying days 6-7.
+4. **Determinism.** The random generator and the annealer use only exactly rounded arithmetic (own log/exp, polar-method normals), so the browser and Node produce bit-identical layouts; Math.log differs in the last bit between V8 versions, which is enough to change an annealing run.
+5. **Scoring** is always on held-out days: each user has 7 days of logs; the layout is learned on days 1-5 and scored by replaying days 6-7.
 
 ## Backtest
 
-`node scripts/evaluate.mjs` (400 synthetic users, 3-5 windows each, 1,943 held-out hours). Median head turning per hour on held-out days:
+`node scripts/evaluate.mjs` (400 synthetic users, 3-5 windows each, 1,939 held-out hours). Median head turning per hour on held-out days:
 
 | Layout | Median head turning | Time looking up | Time turned past 30° |
 |---|---|---|---|
-| Your layout (as opened in SpaceWalker 3.0) | 806°/h | 17.4% | 22.4% |
-| One tidy panel (SpaceWalker's snap-to-panel) | 1,147°/h | 0% | 65.5% |
-| Most-used window in the middle (a strong hand rule) | 987°/h | 0% | 23.4% |
-| **Comfort Layout** | **589°/h** | **0.1%** | **2.4%** |
-| Hindsight best (same search on the held-out days) | 579°/h | 0.1% | 2.3% |
+| Your layout (as opened in SpaceWalker 3.0) | 819°/h | 18.3% | 22.4% |
+| One tidy panel (SpaceWalker's snap-to-panel) | 1,191°/h | 0% | 66.3% |
+| Most-used window in the middle (a strong hand rule) | 990°/h | 0% | 22.1% |
+| **Comfort Layout** | **593°/h** | **0.1%** | **2.5%** |
+| Hindsight best (same search on the held-out days) | 589°/h | 0.1% | 2.1% |
 
-Median reduction in head turning: 27% vs. the user's own layout (97.8% of users turn less), 48% vs. one tidy panel, 40% vs. most-used-in-the-middle. The gap to the hindsight-best layout is 0.3%, so five days of usage is enough to learn a stable layout in this simulation.
+Median reduction in head turning: 28% vs. the user's own layout (98.0% of users turn less), 49% vs. one tidy panel, 39% vs. most-used-in-the-middle. The gap to the hindsight-best layout is 0.1%, so five days of usage is enough to learn a stable layout in this simulation.
 
 ## Tests
 
@@ -46,7 +47,7 @@ Tests cover the head model (exact head turns for hand-computed cases, up vs. dow
 
 ## Honest limitations
 
-* All usage data is synthetic and the generator is mine. The backtest shows the method works when users behave like the generator, not that real users would see 27%.
+* All usage data is synthetic and the generator is mine. The backtest shows the method works when users behave like the generator, not that real users would see 28%.
 * The neck-cost weights are a reasonable model, not a validated one. The 2.5× penalty for looking up follows the common ergonomics guidance that neck extension is worse than flexion; real tuning would need user studies or VITURE's own comfort data.
 * "Your layout" is my reconstruction of how windows land when opened in SpaceWalker 3.0 (from the launch video), not real user layouts.
 * The model treats windows as flat rectangles at one distance. Real windows sit 2-10 m away and can be resized; adding distance and size to the search is straightforward.

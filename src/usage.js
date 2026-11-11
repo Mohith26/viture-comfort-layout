@@ -1,6 +1,6 @@
 // Synthetic SpaceWalker users: which apps they keep open, how they switch between them, and
 // the window layouts they would plausibly have today. Seeded and deterministic.
-import { substream, lognormalMean, pick } from './rng.js';
+import { substream, lognormalMean, detLog } from './rng.js';
 
 // Angular sizes (degrees) for each app's window at a typical distance and size.
 export const APPS = {
@@ -48,7 +48,7 @@ export function makeUser(seed, presetIndex = null) {
     for (let i = 0; i < n; i++) apps.push(pool.splice(Math.floor(r() * pool.length), 1)[0]);
     label = 'Synthetic user';
     P = Array.from({ length: n }, () => new Array(n).fill(0));
-    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) if (i !== j) P[i][j] = r() < 0.45 ? 0.1 : -Math.log(r() + 1e-9) * (j === 0 || i === 0 ? 2.2 : 1);
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) if (i !== j) P[i][j] = r() < 0.45 ? 0.1 : -detLog(r() + 1e-9) * (j === 0 || i === 0 ? 2.2 : 1);
     dwell = apps.map((_, i) => (i === 0 ? lognormalMean(r, 360, 0.5) : lognormalMean(r, 110, 0.8)));
   }
   for (let i = 0; i < P.length; i++) {

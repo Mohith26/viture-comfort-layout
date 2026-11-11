@@ -1,7 +1,7 @@
 // Comfort Layout search: simulated annealing over window centres (continuous yaw/pitch) with
 // moves, swaps and edge-snaps, restarted several times; infeasible states (overlap, out of the
 // reachable band) are rejected. Deterministic for a given seed.
-import { mulberry32, normal } from './rng.js';
+import { mulberry32, normal, detExp, detLog } from './rng.js';
 import { layoutCost, feasible, overlaps, inBounds } from './ergonomics.js';
 
 const clone = (L) => L.map((p) => ({ ...p }));
@@ -32,7 +32,7 @@ export function optimizeLayout(start, usage, opts = {}) {
     }
     let cost = layoutCost(L, usage);
     let T = cost * 0.08 + 1e-6;
-    const cool = Math.pow(1e-3, 1 / iters);
+    const cool = detExp(detLog(1e-3) / iters);
     let localBest = { layout: clone(L), cost };
     for (let it = 0; it < iters; it++) {
       const u = rng();
@@ -69,7 +69,7 @@ export function optimizeLayout(start, usage, opts = {}) {
         undo = () => { L[i] = old; };
       }
       const c2 = layoutCost(L, usage);
-      if (c2 <= cost || rng() < Math.exp((cost - c2) / T)) {
+      if (c2 <= cost || rng() < detExp((cost - c2) / T)) {
         cost = c2;
         if (cost < localBest.cost) localBest = { layout: clone(L), cost };
       } else undo();

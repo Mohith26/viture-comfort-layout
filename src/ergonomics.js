@@ -41,7 +41,9 @@ export function postureCost(yaw, pitch, w, h0, m = MODEL) {
 export function headTravel(a, b, m = MODEL) {
   const ha = headPose(a.yaw, a.pitch, a.w, a.h, m);
   const hb = headPose(b.yaw, b.pitch, b.w, b.h, m);
-  return Math.hypot(ha.yaw - hb.yaw, ha.pitch - hb.pitch);
+  const dy = ha.yaw - hb.yaw;
+  const dp = ha.pitch - hb.pitch;
+  return Math.sqrt(dy * dy + dp * dp);
 }
 
 export function outsideComfort(yaw, pitch, w, h0, m = MODEL) {
